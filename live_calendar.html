@@ -1,0 +1,134 @@
+<html>
+<head>
+  <meta charset='utf-8'>
+</head>
+<body>
+  <canvas id="tutorial" width="1024" height="1024"></canvas>
+  <script type="text/javascript">
+
+var canvas = document.getElementById('tutorial');
+var ctx = canvas.getContext('2d');
+
+var current_day = 150;
+function day(x, y, r) {
+  var day_c = this.day_c || 0;
+  var c = "black";
+  if (day_c > current_day) {
+    c = "green";
+  }
+  circle(x, y, r, c);
+  this.day_c = day_c + 1;
+}
+
+function circle(x, y, r, c) {
+  if (c === undefined) {
+    c = "black";
+  }
+//  ctx.fillStyle = c;
+  ctx.strokeStyle = c;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2, true);
+  ctx.stroke();
+}
+
+function week(x, y, r) {
+  r /= 1.5;
+  day(x, y, r);
+  day(x - r * 2 - 1, y, r);
+  day(x + r * 2 + 1, y, r);
+  day(x - r - 1, y - r * 1.5 - 1, r);
+  day(x + r + 1, y - r * 1.5 - 1, r);
+  day(x - r - 1, y + r * 1.5 + 1, r);
+  day(x + r + 1, y + r * 1.5 + 1, r);
+  circle(x, y, r * 3 + 2);
+}
+
+function month(x, y, s, init) {
+  var deg1 = init;
+  var deg2 = init;
+  var sep = 360 / 4 / 180 * Math.PI;
+  for (var i = 0; i < 4; i++) {
+    week(
+      x + Math.sin(deg1) * (s / (Math.PI - 1.4)),
+      y - Math.cos(deg2) * (s / (Math.PI - 1.4)),
+      s / 5.5
+    );
+    deg1 += sep;
+    deg2 += sep;
+  }
+  circle(x, y, s);
+}
+
+function year(x, y, s) {
+  var deg1 = 0;
+  var deg2 = 0;
+  var sep = 360 / 13 / 180 * Math.PI;
+  for (var i = 0; i < 13; i++) {
+    month(
+      x + Math.sin(deg1) * (s / 1.24),
+      y - Math.cos(deg2) * (s / 1.24),
+      s / 5.2,
+      deg1
+    );
+    deg1 += sep;
+    deg2 += sep;
+  }
+  // circle(x, y, s);
+}
+
+year(400, 400, 400);
+
+/*var x = 500 / 2;
+var y = 500 / 2;
+
+var size = 105;
+var deg1 = 0;
+var deg2 = 0;
+var sep = 360 / 13 / 180 * Math.PI;*/
+
+/*for (var i = 0; i < 13; i++) {
+  week(
+    x + Math.sin(deg1) * size,
+    y - Math.cos(deg2) * size,
+    size / 15,
+    "black"
+  );
+  deg1 += sep;
+  deg2 += sep;
+}*/
+/*setInterval(function() {
+week(
+  x + Math.sin(deg1) * size,
+  y - Math.cos(deg2) * size,
+  5,
+  "white"
+);
+
+deg1 += sep;
+deg2 += sep;
+
+
+    }, 500);
+*/
+/*
+week(
+  50 + Math.sin(60) * 25,
+  50 - Math.cos(30) * 25,
+  5
+);*/
+
+
+//ctx.beginPath();
+//ctx.arc(75, 75, 50, 0, Math.PI * 2, true); // Outer circle
+/*ctx.moveTo(110,75);
+ctx.arc(75,75,35,0,Math.PI,false);  // Mouth (clockwise)
+ctx.moveTo(65,65);
+ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+ctx.moveTo(95,65);
+ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye*/
+//ctx.stroke();
+
+
+</script>
+</body>
+</html>
